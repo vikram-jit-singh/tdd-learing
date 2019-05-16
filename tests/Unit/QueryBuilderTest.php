@@ -59,4 +59,14 @@ class QueryBuilderTest extends ParentTestClass
     {
         $this->assertEquals('SELECT max("cost") FROM products', self::$sql->select('products', ['fields' => ['max("cost")']]));
     }
+
+    public function testSelectMaxCostWithGroupBy()
+    {
+        $this->assertEquals('SELECT max("cost") FROM products GROUP BY cost', self::$sql->select('products', ['fields' => ['max("cost")'], 'group' => ['cost'] ]));
+    }
+
+    public function testSelectUnique()
+    {
+        $this->assertEquals('SELECT DISTINCT name FROM products', self::$sql->select('products', ['fields' => ['DISTINCT name']]));
+    }
 }
