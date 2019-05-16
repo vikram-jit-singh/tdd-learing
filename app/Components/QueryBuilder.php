@@ -14,6 +14,13 @@ class QueryBuilder
 	*					'order' => ['columnA ASC' , 'columnB DESC'],
 	*					'limit' => [], // it can be an array or numeric value, numeric value used for limit and array
 	*	 								having 2 values used and limit and offset
+	*					joins' => [
+	*								'table' => 'tableB',
+	*								'type' => '', // it can be LEFT RIGHT OR blank
+	*								'conditions' => [
+	*									'tableA.column = tableB.column',
+	*								],
+	*							]
 	*				]
 	*
 	*/
@@ -27,6 +34,11 @@ class QueryBuilder
         }
 
         $this->query = "SELECT $fields FROM $table";
+
+        /*Check that if order by clause need to add*/
+        if(isset($attributes['joins'])) {
+        	$this->joins($attributes['joins']);
+        }
 
         /*Check that if order by clause need to add*/
         if(isset($attributes['order'])) {
@@ -65,6 +77,18 @@ class QueryBuilder
 		if (!empty($group)) {
             $_group = (is_array($group)) ? implode(', ', $group) : $group;
         	$this->query .=' GROUP BY '.$_group;
+        }
+    }
+
+    private function joins($joins)
+    {
+		if (!empty($joins)) {
+            $_join = [];
+            $_join[] = ($joins['type']) ? ' '.$joins['type'].' JOIN' : ' JOIN';
+            $_join[] = $joins['table'].' ON';
+            $_join[] = $joins['conditions'];
+        	$join = implode(' ', $_join);
+        	$this->query .= $join;
         }
     }
 } 

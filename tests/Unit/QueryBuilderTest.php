@@ -69,4 +69,18 @@ class QueryBuilderTest extends ParentTestClass
     {
         $this->assertEquals('SELECT DISTINCT name FROM products', self::$sql->select('products', ['fields' => ['DISTINCT name']]));
     }
+
+    public function testSelectJoin()
+    {
+        $this->assertEquals(
+        	'SELECT * FROM products JOIN categories ON products.category_id = categories.id', 
+        	self::$sql->select('products', [
+        									'joins' => [
+        										'table' => 'categories',
+        										'type' => '',
+        										'conditions' => 'products.category_id = categories.id',
+        									]
+        								])
+        );
+    }
 }
