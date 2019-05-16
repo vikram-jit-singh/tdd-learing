@@ -27,6 +27,11 @@ class QueryBuilderTest extends ParentTestClass
 
     public function testSelectColumnsWithOrderBy()
     {
-        $this->assertEquals('select id, name from products order by id desc', self::$sql->select('products', ['fields' => ['id', 'name'], 'order' => ['id desc'] ]));
+        $this->assertEquals('select id, name from products order by id desc', self::$sql->select('products', ['fields' => ['id', 'name'], 'order' => ['id desc']]));
+    }
+
+    public function testSelectColumnsWithMultipleOrderBy()
+    {
+        $this->assertEquals('select * from products order by name asc, category asc', self::$sql->select('products', ['order' => ['name asc', 'category asc']]));
     }
 }
