@@ -17,21 +17,26 @@ class QueryBuilderTest extends ParentTestClass
 
 	public function testSelectAll()
     {
-        $this->assertEquals('select * from products', self::$sql->select('products'));
+        $this->assertEquals('SELECT * FROM products', self::$sql->select('products'));
     }
 
     public function testSelectColumns()
     {
-        $this->assertEquals('select id, name from products', self::$sql->select('products', ['fields' => ['id', 'name']]));
+        $this->assertEquals('SELECT id, name FROM products', self::$sql->select('products', ['fields' => ['id', 'name']]));
     }
 
     public function testSelectColumnsWithOrderBy()
     {
-        $this->assertEquals('select id, name from products order by id desc', self::$sql->select('products', ['fields' => ['id', 'name'], 'order' => ['id desc']]));
+        $this->assertEquals('SELECT id, name FROM products ORDER BY id DESC', self::$sql->select('products', ['fields' => ['id', 'name'], 'order' => ['id DESC']]));
     }
 
     public function testSelectColumnsWithMultipleOrderBy()
     {
-        $this->assertEquals('select * from products order by name asc, category asc', self::$sql->select('products', ['order' => ['name asc', 'category asc']]));
+        $this->assertEquals('SELECT * FROM products ORDER BY name ASC, category ASC', self::$sql->select('products', ['order' => ['name ASC', 'category ASC']]));
+    }
+
+    public function testSelectWithCapitalizedKeywords()
+    {
+        $this->assertEquals('SELECT id, name FROM products ORDER BY id ASC', self::$sql->select('products', ['fields' => ['id', 'name'], 'order' => ['id ASC']]));
     }
 }

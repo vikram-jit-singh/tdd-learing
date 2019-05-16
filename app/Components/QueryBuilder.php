@@ -13,9 +13,9 @@ class QueryBuilder
 
         $order = '';
 		if (!empty($attributes['order'])) {
-            $order = 'order by '.implode(', ', $attributes['order']);
+            $order = 'ORDER BY '.implode(', ', $attributes['order']);
         }
         
-        return trim("select $fields from $table $order");
+        return trim("SELECT $fields FROM $table $order");
     }
 } 
