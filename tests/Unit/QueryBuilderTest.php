@@ -39,4 +39,24 @@ class QueryBuilderTest extends ParentTestClass
     {
         $this->assertEquals('SELECT id, name FROM products ORDER BY id ASC', self::$sql->select('products', ['fields' => ['id', 'name'], 'order' => ['id ASC']]));
     }
+
+    public function testSelectWithLimit()
+    {
+        $this->assertEquals('SELECT * FROM products LIMIT 10', self::$sql->select('products', ['limit' => 10]));
+    }
+
+    public function testSelectWithLimitAndOffset()
+    {
+        $this->assertEquals('SELECT * FROM products LIMIT 10, 5', self::$sql->select('products', ['limit' => [10, 5]]));
+    }
+
+    public function testSelectAllColumnWithCountColumn()
+    {
+        $this->assertEquals('SELECT *, count("id") FROM products', self::$sql->select('products', ['fields' => ['*', 'count("id")']]));
+    }
+
+    public function testSelectMaxCost()
+    {
+        $this->assertEquals('SELECT max("cost") FROM products', self::$sql->select('products', ['fields' => ['max("cost")']]));
+    }
 }
