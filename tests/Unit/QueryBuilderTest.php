@@ -9,9 +9,19 @@ use App\Components\QueryBuilder as QueryBuilderComponent;
 
 class QueryBuilderTest extends ParentTestClass
 {
+	private static $sql;
+
+	public static function setUpBeforeClass() {
+        self::$sql = new QueryBuilderComponent;
+    }
+
 	public function testSelectAll()
     {
-        $sql = new QueryBuilderComponent;
-        $this->assertEquals('select * from products', $sql->select('products'));
+        $this->assertEquals('select * from products', self::$sql->select('products'));
+    }
+
+    public function testSelectColumns()
+    {
+        $this->assertEquals('select id, name from products', self::$sql->select('products', ['id', 'name']));
     }
 }
