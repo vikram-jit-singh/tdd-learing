@@ -4,13 +4,18 @@ namespace App\Components;
 
 class QueryBuilder 
 {
-	public function select($table, array $columns = []) {
+	public function select($table, array $attributes = []) {
 
 		$fields = '*';
-		if (!empty($columns)) {
-            $fields = implode(', ', $columns);
+		if (!empty($attributes['fields'])) {
+            $fields = implode(', ', $attributes['fields']);
         }
 
-        return "select $fields from $table";
+        $order = '';
+		if (!empty($attributes['order'])) {
+            $order = 'order by '.implode(', ', $attributes['order']);
+        }
+        
+        return trim("select $fields from $table $order");
     }
 } 
